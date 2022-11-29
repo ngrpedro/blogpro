@@ -1,12 +1,24 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MagnifyingGlass, SignOut } from "phosphor-react";
 import { useAuth } from "./../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { logout, reset } from "../slices/authSlice";
 
 const NavBar = () => {
   const { auth } = useAuth();
   const { user } = useSelector((state) => state.auth);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+
+    navigate("/login");
+  };
 
   return (
     <div>
@@ -32,7 +44,9 @@ const NavBar = () => {
               <NavLink to="/profile">Perfil</NavLink>
 
               <NavLink to="/">
-                <SignOut size={32} />
+                <span onClick={handleLogout}>
+                  <SignOut size={32} />
+                </span>
               </NavLink>
             </>
           ) : (

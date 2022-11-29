@@ -25,8 +25,8 @@
     [x] - Hook
     [x] - Verificação geral autenticação
     [x] - Rotas autenticadas e/ou não
-[] - Navbar para usuário autenticados
-[] - Implementar logout
+[x] - Navbar para usuário autenticados
+[x] - Implementar logout
 [] - Implementar login
 [] - form
 [] - service
