@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { uploads } from "../../utils/config";
 import { useSelector } from "react-redux";
-import { profile } from "../../slices/userSlice";
+import Messages from "../../components/Messages";
+import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -26,8 +28,38 @@ const EditProfile = () => {
     }
   }, [user]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const userData = {
+      name,
+    };
+
+    if (profileImage) {
+      userData.profileImage = profileImage;
+    }
+
+    if (bio) {
+      userData.bio = bio;
+    }
+
+    if (password) {
+      userData.password = password;
+    }
+
+    const formData = new FormData();
+
+    const userFormData = Object.keys(userData).forEach((key) =>
+      formData.append(key, userData[key])
+    );
+
+    formData.append("user", userFormData);
+
+    await dispatch(updateProfile(formData));
+
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
   };
 
   const handlefile = (e) => {
@@ -105,12 +137,14 @@ const EditProfile = () => {
           <button
             type="submit"
             className="bg-gray-700 py-3 rounded-md px-10 text-white disabled:bg-gray-500"
-            /* disabled={loading} */
+            disabled={loading}
           >
-            {/* {loading ? "Aguarde..." : "Entrar"} */}
-            Atualizar
+            {loading ? "Aguarde..." : "Atualizar"}
           </button>
         </form>
+
+        {error && <Messages type="error" message={error} />}
+        {message && <Messages message={message} />}
       </div>
     </div>
   );

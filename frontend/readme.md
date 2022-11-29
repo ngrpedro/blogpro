@@ -36,6 +36,6 @@
     [x] - Service
     [x] - Slice
     [x] - Imagem de preview
-[ ] - Atualização de usário
-    [ ] - Service
-    [ ] - Slice
+[x] - Atualização de usário
+    [x] - Service
+    [x] - Slice
