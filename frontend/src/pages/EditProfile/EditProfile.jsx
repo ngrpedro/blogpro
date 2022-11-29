@@ -30,12 +30,31 @@ const EditProfile = () => {
     e.preventDefault();
   };
 
+  const handlefile = (e) => {
+    const image = e.target.files[0];
+
+    setPreviewImage(image);
+
+    setProfileImage(image);
+  };
+
   return (
     <div>
       <div className="py-20 flex flex-col items-start justify-center gap-14 max-w-md m-auto">
         <div className="bg-gray-600 w-36 h-36 rounded-md">
-          <img src="" alt="" />
+          {(user.profileImage || previewImage) && (
+            <img
+              src={
+                previewImage
+                  ? URL.createObjectURL(previewImage)
+                  : `${uploads}/users/${user.profileImage}`
+              }
+              className="w-36 h-36 rounded-md object-cover"
+              alt={user.name}
+            />
+          )}
         </div>
+
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-start justify-center gap-5 max-w-md m-auto"
@@ -57,8 +76,7 @@ const EditProfile = () => {
             <span>Imagem de perfil:</span>
             <input
               type="file"
-              name=""
-              id=""
+              onChange={handlefile}
               className="border border-gray-300 p-2 rounded-md w-full  text-gray-700"
             />
           </label>

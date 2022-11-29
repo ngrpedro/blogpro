@@ -31,9 +31,11 @@
     [x] - Form
     [x] - Service
     [x] - Slice
-[ ] - Pagina de edição 
+[x] - Pagina de edição 
     [x] - Form
     [x] - Service
     [x] - Slice
-    [ ] - Imagem de preview
+    [x] - Imagem de preview
 [ ] - Atualização de usário
+    [ ] - Service
+    [ ] - Slice
