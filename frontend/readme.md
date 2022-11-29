@@ -28,11 +28,12 @@
 [x] - Navbar para usuário autenticados
 [x] - Implementar logout
 [x] - Implementar login
-    [x] - form
-    [] - service
-    [] - slice
-[] -
-[] -
-[] -
-[] -
-[] -
+    [x] - Form
+    [x] - Service
+    [x] - Slice
+[] - Pagina de edição 
+    [] - Form
+    [] - Reducer (service)
+[] - Resgatando dados do usuário
+[] - Slice de perfil de usuário
+[] - Preencher formulário de usuário 

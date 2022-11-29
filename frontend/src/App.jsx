@@ -6,6 +6,7 @@ import Login from "./pages/Auth/Login";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { useAuth } from "./hooks/useAuth";
+import EditProfile from "./pages/EditProfile/EditProfile";
 
 function App() {
   const { auth, loading } = useAuth();
@@ -21,10 +22,7 @@ function App() {
         <div className="bg-gray-100">
           <div className="max-w-5xl m-auto">
             <Routes>
-              <Route
-                path="/"
-                element={auth ? <Home /> : <Navigate to="/login" />}
-              />
+              {/* !auth */}
               <Route
                 path="/login"
                 element={!auth ? <Login /> : <Navigate to="/" />}
@@ -32,6 +30,17 @@ function App() {
               <Route
                 path="/register"
                 element={!auth ? <Register /> : <Navigate to="/" />}
+              />
+
+              {/* auth */}
+
+              <Route
+                path="/"
+                element={auth ? <Home /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/profile"
+                element={auth ? <EditProfile /> : <Navigate to="/login" />}
               />
             </Routes>
           </div>
