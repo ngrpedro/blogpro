@@ -39,3 +39,7 @@
 [x] - Atualização de usário
     [x] - Service
     [x] - Slice
+[x] - Perfil de usário
+    [x] - View
+    [x] - Service
+    [x] - Slice
