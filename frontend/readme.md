@@ -27,10 +27,10 @@
     [x] - Rotas autenticadas e/ou não
 [x] - Navbar para usuário autenticados
 [x] - Implementar logout
-[] - Implementar login
-[] - form
-[] - service
-[] - slice
+[x] - Implementar login
+    [x] - form
+    [] - service
+    [] - slice
 [] -
 [] -
 [] -

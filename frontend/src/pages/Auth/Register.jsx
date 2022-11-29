@@ -108,7 +108,7 @@ const Register = () => {
           <div className="flex flex-col items-end justify-end w-full gap-6">
             <button
               type="submit"
-              className="bg-gray-700 py-3 rounded-md px-10 text-white"
+              className="bg-gray-700 py-3 rounded-md px-10 text-white disabled:bg-gray-500"
               disabled={loading}
             >
               {loading ? "Aguarde..." : "Entrar"}
@@ -123,7 +123,7 @@ const Register = () => {
             </div>
           </div>
         </form>
-        {error && <Messages type="red" message={error} />}
+        {error && <Messages type="error" message={error} />}
       </div>
     </div>
   );
