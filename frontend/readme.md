@@ -31,9 +31,9 @@
     [x] - Form
     [x] - Service
     [x] - Slice
-[] - Pagina de edição 
-    [] - Form
-    [] - Reducer (service)
-[] - Resgatando dados do usuário
-[] - Slice de perfil de usuário
-[] - Preencher formulário de usuário 
+[ ] - Pagina de edição 
+    [x] - Form
+    [x] - Service
+    [x] - Slice
+    [ ] - Imagem de preview
+[ ] - Atualização de usário
