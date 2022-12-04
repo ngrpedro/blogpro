@@ -17,29 +17,29 @@
 
 29/11
 [x] - Criar validação formulário de registro
-    [x] - Component de mensagens 
-    [x] - Error
-    [x] - Success
+[x] - Component de mensagens
+[x] - Error
+[x] - Success
 [x] - Exibindo validação
 [x] - Verificando se o usuário está autenticado
-    [x] - Hook
-    [x] - Verificação geral autenticação
-    [x] - Rotas autenticadas e/ou não
+[x] - Hook
+[x] - Verificação geral autenticação
+[x] - Rotas autenticadas e/ou não
 [x] - Navbar para usuário autenticados
 [x] - Implementar logout
 [x] - Implementar login
-    [x] - Form
-    [x] - Service
-    [x] - Slice
-[x] - Pagina de edição 
-    [x] - Form
-    [x] - Service
-    [x] - Slice
-    [x] - Imagem de preview
+[x] - Form
+[x] - Service
+[x] - Slice
+[x] - Pagina de edição
+[x] - Form
+[x] - Service
+[x] - Slice
+[x] - Imagem de preview
 [x] - Atualização de usário
-    [x] - Service
-    [x] - Slice
+[x] - Service
+[x] - Slice
 [x] - Perfil de usário
-    [x] - View
-    [x] - Service
-    [x] - Slice
+[x] - View
+[x] - Service
+[x] - Slice
