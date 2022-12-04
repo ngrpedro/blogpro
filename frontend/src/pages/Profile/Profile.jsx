@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getUserDetails } from "./../../slices/userSlice";
 import { uploads } from "../../utils/config";
 import { useRef } from "react";
+import { publishPhoto, resetMessage } from "./../../slices/photoSlice";
+import Messages from "../../components/Messages";
 
 const Profile = () => {
   const { id } = useParams();
@@ -12,6 +14,15 @@ const Profile = () => {
 
   const { user, loading } = useSelector((state) => state.user);
   const { user: userAuth } = useSelector((state) => state.auth);
+  const {
+    photos,
+    loading: loadingPhoto,
+    error: errorPhoto,
+    message: messagePhoto,
+  } = useSelector((state) => state.photo);
+
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState("");
 
   const newPhotoForm = useRef();
   const editPhotoForm = useRef();
@@ -20,9 +31,34 @@ const Profile = () => {
     dispatch(getUserDetails(id));
   }, [dispatch, id]);
 
+  // Publish a new photo
   const submitHandle = (e) => {
     e.preventDefault();
-    console.log("teste");
+
+    const photoData = {
+      title,
+      image,
+    };
+
+    // build form data
+    const formData = new FormData();
+
+    const photoFormData = Object.keys(photoData).forEach((key) =>
+      formData.append(key, photoData[key])
+    );
+
+    formData.append("photo", photoFormData);
+
+    dispatch(publishPhoto(formData));
+
+    setTitle("");
+  };
+
+  // change image state
+  const handleFile = (e) => {
+    const image = e.target.files[0];
+
+    setImage(image);
   };
 
   return (
@@ -51,6 +87,8 @@ const Profile = () => {
                   <span>Título da foto:</span>
                   <input
                     type="text"
+                    onChange={(e) => setTitle(e.target.value)}
+                    valeu={title || ""}
                     className="border border-gray-300 p-2 rounded-md w-full  text-gray-700"
                   />
                 </label>
@@ -59,13 +97,19 @@ const Profile = () => {
                   <span>Imagem:</span>
                   <input
                     type="file"
+                    onChange={handleFile}
                     className="border border-gray-300 p-2 rounded-md w-full  text-gray-700"
                   />
                 </label>
-
-                <input type="submit" value="Postar" />
+                {loading ? (
+                  <input type="submit" disabled value="Aguarde..." />
+                ) : (
+                  <input type="submit" value="Postar" />
+                )}
               </form>
             </div>
+
+            {errorPhoto && <Messages type="error" message={errorPhoto} />}
           </>
         )}
       </div>

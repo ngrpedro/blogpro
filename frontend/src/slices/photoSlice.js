@@ -10,6 +10,7 @@ const initialState = {
   message: null,
 };
 
+// Publish an user's photo
 export const publishPhoto = createAsyncThunk(
   "photo/publish",
   async (photo, thunkAPI) => {
@@ -18,7 +19,7 @@ export const publishPhoto = createAsyncThunk(
     const data = await photoService.publishPhoto(photo, token);
 
     console.log(data.errors);
-
+    // Check for errors
     if (data.errors) {
       return thunkAPI.rejectWithValue(data.errors[0]);
     }
@@ -28,7 +29,7 @@ export const publishPhoto = createAsyncThunk(
 );
 
 export const photoSlice = createSlice({
-  name: "photo",
+  name: "publish",
   initialState,
   reducers: {
     resetMessage: (state) => {
@@ -52,7 +53,7 @@ export const photoSlice = createSlice({
       .addCase(publishPhoto.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.photo = {};
+        state.photo = null;
       });
   },
 });
