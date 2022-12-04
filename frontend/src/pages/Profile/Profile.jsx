@@ -5,8 +5,13 @@ import { useSelector } from "react-redux";
 import { getUserDetails } from "./../../slices/userSlice";
 import { uploads } from "../../utils/config";
 import { useRef } from "react";
-import { publishPhoto, resetMessage } from "./../../slices/photoSlice";
+import {
+  publishPhoto,
+  resetMessage,
+  getUserPhotos,
+} from "./../../slices/photoSlice";
 import Messages from "../../components/Messages";
+import { Eye, Pen, Trash } from "phosphor-react";
 
 const Profile = () => {
   const { id } = useParams();
@@ -27,11 +32,17 @@ const Profile = () => {
   const newPhotoForm = useRef();
   const editPhotoForm = useRef();
 
+  function resetComponentMessage() {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  }
+
   useEffect(() => {
     dispatch(getUserDetails(id));
+    dispatch(getUserPhotos(id));
   }, [dispatch, id]);
 
-  // Publish a new photo
   const submitHandle = (e) => {
     e.preventDefault();
 
@@ -40,7 +51,6 @@ const Profile = () => {
       image,
     };
 
-    // build form data
     const formData = new FormData();
 
     const photoFormData = Object.keys(photoData).forEach((key) =>
@@ -52,6 +62,7 @@ const Profile = () => {
     dispatch(publishPhoto(formData));
 
     setTitle("");
+    resetComponentMessage();
   };
 
   // change image state
@@ -110,8 +121,46 @@ const Profile = () => {
             </div>
 
             {errorPhoto && <Messages type="error" message={errorPhoto} />}
+            {messagePhoto && <Messages message={messagePhoto} />}
           </>
         )}
+      </div>
+      <div className="py-5">
+        <h1>Fotos publicadas</h1>
+
+        <div className="flex flex-wrap items-start justify-start gap-5">
+          {photos &&
+            photos.map((item) => (
+              <div key={item.id}>
+                {item.image && (
+                  <img
+                    className="w-36"
+                    src={`${uploads}/photos/${item.image}`}
+                    alt="image"
+                  />
+                )}
+                {id === userAuth._id ? (
+                  <div className="flex items-center justify-center gap-8 py-4">
+                    <div>
+                      <Eye size={22} />
+                    </div>
+
+                    <div>
+                      <Pen size={22} />
+                    </div>
+
+                    <div>
+                      <Trash size={22} />
+                    </div>
+                  </div>
+                ) : (
+                  <Link to={`/photos/${item.id}`}>Ver</Link>
+                )}
+
+                {photos.length === 0 && <p>Fotos não publicadas</p>}
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
