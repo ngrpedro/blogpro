@@ -5,10 +5,12 @@ import { useSelector } from "react-redux";
 import { getUserDetails } from "./../../slices/userSlice";
 import { uploads } from "../../utils/config";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   publishPhoto,
   resetMessage,
   getUserPhotos,
+  deletePhoto,
 } from "./../../slices/photoSlice";
 import Messages from "../../components/Messages";
 import { Eye, Pen, Trash } from "phosphor-react";
@@ -62,14 +64,20 @@ const Profile = () => {
     dispatch(publishPhoto(formData));
 
     setTitle("");
+    setImage();
     resetComponentMessage();
   };
 
-  // change image state
   const handleFile = (e) => {
     const image = e.target.files[0];
 
     setImage(image);
+  };
+
+  const handleDelete = (id) => {
+    dispatch(deletePhoto(id));
+
+    resetComponentMessage();
   };
 
   return (
@@ -99,7 +107,7 @@ const Profile = () => {
                   <input
                     type="text"
                     onChange={(e) => setTitle(e.target.value)}
-                    valeu={title || ""}
+                    value={title || ""}
                     className="border border-gray-300 p-2 rounded-md w-full  text-gray-700"
                   />
                 </label>
@@ -131,7 +139,7 @@ const Profile = () => {
         <div className="flex flex-wrap items-start justify-start gap-5">
           {photos &&
             photos.map((item) => (
-              <div key={item.id}>
+              <div key={item._id}>
                 {item.image && (
                   <img
                     className="w-36"
@@ -142,7 +150,9 @@ const Profile = () => {
                 {id === userAuth._id ? (
                   <div className="flex items-center justify-center gap-8 py-4">
                     <div>
-                      <Eye size={22} />
+                      <Link to={`/photos/${item._id}`}>
+                        <Eye size={22} />
+                      </Link>
                     </div>
 
                     <div>
@@ -150,16 +160,15 @@ const Profile = () => {
                     </div>
 
                     <div>
-                      <Trash size={22} />
+                      <Trash size={22} onClick={() => handleDelete(item._id)} />
                     </div>
                   </div>
                 ) : (
-                  <Link to={`/photos/${item.id}`}>Ver</Link>
+                  <Link to={`/photos/${item._id}`}>Ver</Link>
                 )}
-
-                {photos.length === 0 && <p>Fotos não publicadas</p>}
               </div>
             ))}
+          {photos.length === 0 && <p>Nenhuma foto publicada</p>}
         </div>
       </div>
     </div>
