@@ -73,7 +73,7 @@ const EditProfile = () => {
   return (
     <div>
       <div className="py-20 flex flex-col items-start justify-center gap-14 max-w-md m-auto">
-        <div className="bg-gray-600 w-36 h-36 rounded-md">
+        <div className="w-36 h-36">
           {(user.profileImage || previewImage) && (
             <img
               src={
