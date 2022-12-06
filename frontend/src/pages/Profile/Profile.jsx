@@ -11,6 +11,7 @@ import {
   resetMessage,
   getUserPhotos,
   deletePhoto,
+  updatePhoto,
 } from "./../../slices/photoSlice";
 import Messages from "../../components/Messages";
 import { Eye, Pen, Trash } from "phosphor-react";
@@ -30,6 +31,10 @@ const Profile = () => {
 
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
+
+  const [editId, setEditId] = useState("");
+  const [editImage, setEditIamge] = useState("");
+  const [editTitle, setEditTitle] = useState("");
 
   const newPhotoForm = useRef();
   const editPhotoForm = useRef();
@@ -80,8 +85,45 @@ const Profile = () => {
     resetComponentMessage();
   };
 
+  const showOrHideForms = () => {
+    newPhotoForm.current.classList.toggle("hidden");
+    editPhotoForm.current.classList.toggle("hidden");
+  };
+
+  /* edit */
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    const photoData = {
+      title: editTitle,
+      id: editId,
+    };
+
+    console.log(photoData);
+
+    dispatch(updatePhoto(photoData));
+
+    resetComponentMessage();
+  };
+
+  const handleEdit = (photo) => {
+    if (editPhotoForm.current.classList.contains("hidden")) {
+      showOrHideForms();
+    }
+
+    setEditId(photo._id);
+    setEditIamge(photo.image);
+    setEditTitle(photo.title);
+  };
+
+  const handleCancelEdit = (e) => {
+    e.preventDefault();
+    showOrHideForms();
+  };
+
   return (
     <div className="flex flex-col items-start justify-center p-10">
+      {/* HEADER */}
       <div className="flex flex-col md:flex-row items-start justify-start md:gap-10 w-full border-b border-gray-700 pb-10">
         <div className="w-36 h-36 object-cover">
           {user.profileImage && (
@@ -96,9 +138,11 @@ const Profile = () => {
           <h2 className="font-bold text-lg">{user.email}</h2>
         </div>
       </div>
+      {/* FORMS */}
       <div className="py-20">
         {id === userAuth._id && (
           <>
+            {/* NEW PUBLISH FORM */}
             <div className="space-y-5" ref={newPhotoForm}>
               <h1>Compartilhe algum momento seu:</h1>
               <form onSubmit={submitHandle}>
@@ -128,11 +172,33 @@ const Profile = () => {
               </form>
             </div>
 
+            {/* UPDATE FORM */}
+            <div className="hidden" ref={editPhotoForm}>
+              <h1>Editando postagem</h1>
+
+              {editImage && (
+                <img src={`${uploads}/photos/${editImage}`} alt={editTitle} />
+              )}
+
+              <form onSubmit={handleUpdate}>
+                <input
+                  type="text"
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  value={editTitle || ""}
+                  className="border border-gray-300 p-2 rounded-md w-full  text-gray-700"
+                />
+
+                <input type="submit" value="Atualizar" />
+                <button onClick={handleCancelEdit}>Cancelar edição</button>
+              </form>
+            </div>
+
             {errorPhoto && <Messages type="error" message={errorPhoto} />}
             {messagePhoto && <Messages message={messagePhoto} />}
           </>
         )}
       </div>
+      {/* PUBLISH PHOTOS */}
       <div className="py-5">
         <h1>Fotos publicadas</h1>
 
@@ -155,11 +221,11 @@ const Profile = () => {
                       </Link>
                     </div>
 
-                    <div>
-                      <Pen size={22} />
+                    <div className="cursor-pointer">
+                      <Pen size={22} onClick={() => handleEdit(item)} />
                     </div>
 
-                    <div>
+                    <div className="cursor-pointer">
                       <Trash size={22} onClick={() => handleDelete(item._id)} />
                     </div>
                   </div>
